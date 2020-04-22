@@ -11,6 +11,7 @@ npm install / yarn install
 npm run serve / yarn serve
 ```
 
+——————————————————————————————————
 
 ##### 实现功能点
 假设我们需要在前端设计一个UI, 它是用户用来上传一段视频文件的. 用户需要在 UI 中输入视频的标题(Title), 描述(Description) 和需要上传的视频.
@@ -30,21 +31,26 @@ npm run serve / yarn serve
 - 视频上传接口路径: /upload/video
 
 - 请求参数
-title: 类型(String) 必填
+  
+  title: 类型(String) 必填
 
-content: 类型(String) 必填
+  content: 类型(String) 必填
 
-file: 二进制文件 必填
+  file: 二进制文件 必填
 
 - 请求头格式
-Content-Type: multipart/form-data
+  
+  Content-Type: multipart/form-data
 
 - 响应参数
-code: 0(请求成功)/ -1(错误提示)
 
-message: 消息提示
+  code: 0(请求成功)/ -1(错误提示)
 
-img_url: 上传后获取的url
+  message: 消息提示
+
+  img_url: 上传后获取的url
+
+——————————————————————————————————
 
 #### 源文件代码
 - serve.js 基于koa2的一个上传服务文件
