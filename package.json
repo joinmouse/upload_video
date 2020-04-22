@@ -10,9 +10,16 @@
     "qiniu-js": "^2.5.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "koa": "^2.11.0",
+    "koa-body": "^4.1.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^8.0.8",
+    "koa-static": "^5.0.0",
+    "koa2-cors": "^2.0.6"
   },
   "scripts": {
+    "serve": "node serve.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
