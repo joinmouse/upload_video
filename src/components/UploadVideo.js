@@ -8,6 +8,7 @@ const UploadVideo = (props) => {
     const [content, setContent] = useState('')
     const [warn, setWarn] = useState('')
     const upload = useRef()
+    const prograss = useRef()
 
     function handleChangeTitle(e) {
         setTitle(e.target.value)
@@ -48,7 +49,7 @@ const UploadVideo = (props) => {
                 setWarn('请上传mp4格式的视频')
                 return
             }
-            if((file.size/1024/1024).toFixed(2) > 50) {
+            if((file.size/1024/1024) > 50) {
                 setWarn('请上传小于50Mb的文件')
                 return
             }
@@ -59,14 +60,24 @@ const UploadVideo = (props) => {
             param.append('file', file)
             param.append('title', title)
             param.append('content', content)
-
+            // 进度条
+            console.log(prograss.current)
+            let progressEl = prograss.current
+            progressEl.style.width = '0'
             axios.post(url, param, {
                 headers: {
                   'Content-Type': 'multipart/form-data'
                 },
                 onUploadProgress: progressEvent => {
                     let complete = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
-                    console.log(complete)
+                    window.requestAnimationFrame(progressFn)
+                    function progressFn() {
+                        if(parseInt(progressEl.style.width) < 200) {
+                            progressEl.style.width = complete * 200 + 'px';
+                            progressEl.innerHTML =  complete
+                            window.requestAnimationFrame(progressFn)
+                        }
+                    }
                 }
             }).then((response) => {
                 if(response.data.code === 0) {
@@ -98,6 +109,7 @@ const UploadVideo = (props) => {
                     <span>上传视频</span>
                     <input type="file" onChange={handleUploadFile} ref={upload} name="file" accept="video/mp4"/>
                 </label>
+                <div className={styles.progress} ref={prograss}></div>
                 {warn ? <p className={styles.warn}>{warn}</p> : null}
                 <button className={styles.submit} onClick={handleSubmit}>提交</button>
             </div>
