@@ -31,7 +31,9 @@ npm run serve / yarn serve
 
 - 请求参数
 title: 类型(String) 必填
+
 content: 类型(String) 必填
+
 file: 二进制文件 必填
 
 - 请求头格式
@@ -39,11 +41,16 @@ Content-Type: multipart/form-data
 
 - 响应参数
 code: 0(请求成功)/ -1(错误提示)
+
 message: 消息提示
+
 img_url: 上传后获取的url
 
-#### 源文件代码注释
-- serve.js 服务端开启的接口文件
+#### 源文件代码
+- serve.js 基于koa2的一个上传服务文件
+
 - src 前端部分的源码
+
 - build 打包后的前端文件夹
+
 - upload 上传存储的文件夹
