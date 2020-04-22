@@ -1,5 +1,7 @@
 import React, {useState, useRef} from 'react'
 import  styles from  './upload.module.css';
+import hostname from '../utils/hostname';
+import axios from 'axios';
 
 const UploadVideo = (props) => {
     const [title, setTitle] = useState('')
@@ -33,8 +35,6 @@ const UploadVideo = (props) => {
             setWarn('标题未输入')
             return
         }
-        console.log(title)
-        console.log(content)
         if(!content) {
             setWarn('内容未输入')
             return
@@ -52,16 +52,35 @@ const UploadVideo = (props) => {
                 setWarn('请上传小于50Mb的文件')
                 return
             }
-            /* 可以开始上传了
-            let xhr = new XMLHttpRequest()
-            xhr.open('POST', url)
-            xhr.send()
-            xhr.upload.onprogress = function(event) {
-                console.log(event.loaded)
-                console.log(event.total)
-            }
-            */
+
+            // 上传视频文件
+            let url = `${hostname}/upload/video`
+            let param = new FormData()
+            param.append('file', file)
+            param.append('title', title)
+            param.append('content', content)
+
+            axios.post(url, param, {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                },
+                onUploadProgress: progressEvent => {
+                    let complete = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
+                    console.log(complete)
+                }
+            }).then((response) => {
+                if(response.data.code === 0) {
+                    console.log(response.data.message)
+                    handleImgUrl(response.data.img_url)
+                }
+            })
         }
+    }
+
+    // 值传递给父组件
+    function handleImgUrl(img) {
+        handleClose()
+        props.handleImgUrl(img)
     }
 
     return (
